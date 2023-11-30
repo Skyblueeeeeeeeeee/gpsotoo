@@ -80,6 +80,10 @@ const TelemetryTable = ({
       header: "",
       cell: ({ row }) => <p className="text-center">{row.getValue("idx")}</p>,
     },
+        {
+      accessorKey: "ts",
+      header: "Time",
+    },
     {
       accessorKey: "latitude",
       header: "Latitude",
@@ -87,10 +91,6 @@ const TelemetryTable = ({
     {
       accessorKey: "longitude",
       header: "Longitude",
-    },
-    {
-      accessorKey: "ts",
-      header: "Time",
     },
     {
       accessorKey: "",
