@@ -65,7 +65,7 @@ const LoginForm = () => {
     <Card className="w-[24em]">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>Access to IoT Dashboard</CardDescription>
+        <CardDescription>Access to GPS Tracking oto</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
