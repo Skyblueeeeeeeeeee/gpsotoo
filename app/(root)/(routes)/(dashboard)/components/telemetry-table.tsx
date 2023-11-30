@@ -80,7 +80,7 @@ const TelemetryTable = ({
       header: "",
       cell: ({ row }) => <p className="text-center">{row.getValue("idx")}</p>,
     },
-        {
+   {
       accessorKey: "ts",
       header: "Time",
     },
