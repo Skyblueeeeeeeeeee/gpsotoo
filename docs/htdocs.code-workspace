@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../xampp/htdocs"
+		},
+		{
+			"path": "../../../Pytohnn"
+		},
+		{
+			"path": "../../../WebDemoThingsboard"
+		},
+		{
+			"path": "../../../New folder"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "WebDemoThingsboard"
+	}
+}
