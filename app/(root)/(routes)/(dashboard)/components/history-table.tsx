@@ -16,6 +16,18 @@ interface HistoryTableProps {
   endTs: number;
 }
 
+const formattedData = (data: any) => {
+  return data["history"].map((val: any, idx: number) => {
+    const { latitude, longitude } = JSON.parse(val.value);
+    return {
+      idx: idx + 1,
+      ts: moment(val.ts).format("HH:mm:ss DD-MM-YYYY"),
+      latitude,
+      longitude,
+    };
+  });
+};
+
 const HistoryTable = ({
   entityId,
   entityType,
@@ -23,7 +35,7 @@ const HistoryTable = ({
   startTs,
   endTs,
 }: HistoryTableProps) => {
-  const [dataFormatTable, setDataFormatTable] = useState<any>(null);
+  const [dataFormatTable, setDataFormatTable] = useState() as any;
   const [loading, setLoading] = useState(false);
 
   const columns: ColumnDef<any>[] = [
@@ -67,41 +79,24 @@ const HistoryTable = ({
     }
     const getData = async () => {
       setLoading(true);
-      try {
-        const data = await thingsboard.telemetry().getTimeseries(
-          token,
-          {
-            entityId,
-            entityType,
-          },
-          {
-            keys,
-            startTs,
-            endTs,
-          }
-        );
-        const formatData = formattedData(data);
-        setDataFormatTable(formatData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
+      const data = await thingsboard.telemetry().getTimeseries(
+        token,
+        {
+          entityId,
+          entityType,
+        },
+        {
+          keys,
+          startTs,
+          endTs,
+        }
+      );
+      const formatData = formattedData(data);
+      setDataFormatTable(formatData);
+      setLoading(false);
     };
     getData();
   }, [endTs, entityId, entityType, keys, startTs]);
-
-  const formattedData = (data: any) => {
-    return data["history"].map((val: any, idx: number) => {
-      const { latitude, longitude } = JSON.parse(val.value);
-      return {
-        idx: idx + 1,
-        ts: moment(val.ts).format("HH:mm:ss DD-MM-YYYY"),
-        latitude,
-        longitude,
-      };
-    });
-  };
 
   return (
     <div className="container mx-auto">
