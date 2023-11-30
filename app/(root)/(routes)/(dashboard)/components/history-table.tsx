@@ -16,18 +16,6 @@ interface HistoryTableProps {
   endTs: number;
 }
 
-const formattedData = (data: any) => {
-  return data["history"].map((val: any, idx: number) => {
-    const { latitude, longitude } = JSON.parse(val.value);
-    return {
-      idx: idx + 1,
-      ts: moment(val.ts).format("HH:mm:ss DD-MM-YYYY"),
-      latitude,
-      longitude,
-    };
-  });
-};
-
 const HistoryTable = ({
   entityId,
   entityType,
@@ -35,7 +23,7 @@ const HistoryTable = ({
   startTs,
   endTs,
 }: HistoryTableProps) => {
-  const [dataFormatTable, setDataFormatTable] = useState() as any;
+  const [dataFormatTable, setDataFormatTable] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const columns: ColumnDef<any>[] = [
@@ -45,16 +33,16 @@ const HistoryTable = ({
       cell: ({ row }) => <p className="text-center">{row.getValue("idx")}</p>,
     },
     {
+      accessorKey: "ts",
+      header: "Time",
+    },
+    {
       accessorKey: "latitude",
       header: "Latitude",
     },
     {
       accessorKey: "longitude",
       header: "Longitude",
-    },
-    {
-      accessorKey: "ts",
-      header: "Time",
     },
     {
       accessorKey: "",
@@ -79,24 +67,41 @@ const HistoryTable = ({
     }
     const getData = async () => {
       setLoading(true);
-      const data = await thingsboard.telemetry().getTimeseries(
-        token,
-        {
-          entityId,
-          entityType,
-        },
-        {
-          keys,
-          startTs,
-          endTs,
-        }
-      );
-      const formatData = formattedData(data);
-      setDataFormatTable(formatData);
-      setLoading(false);
+      try {
+        const data = await thingsboard.telemetry().getTimeseries(
+          token,
+          {
+            entityId,
+            entityType,
+          },
+          {
+            keys,
+            startTs,
+            endTs,
+          }
+        );
+        const formatData = formattedData(data);
+        setDataFormatTable(formatData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     getData();
   }, [endTs, entityId, entityType, keys, startTs]);
+
+  const formattedData = (data: any) => {
+    return data["history"].map((val: any, idx: number) => {
+      const { latitude, longitude } = JSON.parse(val.value);
+      return {
+        idx: idx + 1,
+        ts: moment(val.ts).format("HH:mm:ss DD-MM-YYYY"),
+        latitude,
+        longitude,
+      };
+    });
+  };
 
   return (
     <div className="container mx-auto">
