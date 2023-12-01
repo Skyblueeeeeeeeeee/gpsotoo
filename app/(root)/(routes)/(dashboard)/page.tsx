@@ -48,7 +48,7 @@ const DashboardPage = () => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Click History</CardTitle>
+          <CardTitle>Lịch sử tìm kiếm vị trí</CardTitle>
         </CardHeader>
         <CardContent>
           <HistoryTable
