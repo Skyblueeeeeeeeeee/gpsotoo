@@ -34,19 +34,19 @@ const HistoryTable = ({
     },
     {
       accessorKey: "ts",
-      header: "Time",
+      header: "Thời gian",
     },
     {
       accessorKey: "latitude",
-      header: "Latitude",
+      header: "Vĩ Độ",
     },
     {
       accessorKey: "longitude",
-      header: "Longitude",
+      header: "Kinh Độ",
     },
     {
       accessorKey: "",
-      header: "Mapped pin",
+      header: "Vị trí googlemap",
       cell: ({ row }) => {
         const url = `https://maps.google.com/?q=${row.getValue(
           "latitude"
